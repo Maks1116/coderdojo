@@ -5,7 +5,7 @@ const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX } = require("./util/EvobotUtil");
-const {activities_list} = require("config.json")
+const {activities_list} = require("./config.json")
 
 const client = new Client({ disableMentions: "everyone" });
 
@@ -23,7 +23,7 @@ client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
     setInterval(() => {
         const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
-        Client.user.setActivity(activities_list[index]); // sets bot's activities to one of the phrases in the arraylist.
+        client.user.setActivity(activities_list[index]); // sets bot's activities to one of the phrases in the arraylist.
     }, 10000); // Runs this every 10 seconds.
 });
 client.on("warn", (info) => console.log(info));
