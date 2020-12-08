@@ -54,6 +54,19 @@ client.on("message", async (message) => {
     }
   }
 
+  //ping pong brrr
+  if (message.content.toLowerCase().startsWith("ping")) {
+    var a = new MessageEmbed()
+      .setTitle("Pong!")
+      .setColor("00ff00");
+    return message.channel.send(a);
+  } else if (message.content.toLowerCase().startsWith("pong")) {
+    var a = new MessageEmbed()
+      .setTitle("Ping!")
+      .setColor("00ff00");
+    return message.channel.send(a);
+  }
+
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(PREFIX)})\\s*`);
   if (!prefixRegex.test(message.content)) return;
 
