@@ -6,7 +6,7 @@ module.exports = {
     name: "antispam",
     description: "Configures Anti Spam for this server",
     execute(message) {
-        if (!message.author.hasPermission("MANAGE_CHANNELS")) {
+        if (!message.member.hasPermission("MANAGE_CHANNELS")) {
             return message.channel.send("Acces denied!");
         }
         if (!message.content.split(" ")[1]) {
