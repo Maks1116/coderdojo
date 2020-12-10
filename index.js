@@ -5,7 +5,19 @@ const { Client, Collection, MessageEmbed, Message } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX } = require("./util/EvobotUtil");
-const {activities_list, BANNED_GUILDS} = require("./config.json")
+const {activities_list, BANNED_GUILDS} = require("./config.json");
+
+const AntiSpam = require('discord-anti-spam');
+const antiSpam = new AntiSpam({
+  warnThreshold: 3, // Amount of messages sent in a row that will cause a warning.
+  kickThreshold: 10, // Amount of messages sent in a row that will cause a ban.
+  maxInterval: 10000, // Amount of time (in milliseconds) in which messages are considered spam.
+  warnMessage: '{@user}, Please stop spamming.', // Message that will be sent in chat upon warning a user.
+  kickMessage: '**{user_tag}** has been kicked for spamming.', // Message that will be sent in chat upon kicking a user.
+  maxDuplicatesWarning: 7, // Amount of duplicate messages that trigger a warning.
+  maxDuplicatesKick: 10, // Amount of duplicate messages that trigger a warning.
+  exemptPermissions: ['ADMINISTRATOR', 'MANAGE_CHANNELS', 'KICK_MEMBERS']
+});
 
 const client = new Client({ disableMentions: "everyone" });
 
@@ -49,6 +61,19 @@ client.on("message", async (message) => {
         return message.channel.send(c);
       }
     }
+  }
+
+  //Anti spam in guilds, that enabled that
+
+  var enable = false;
+  var protectGuilds = require("./database/antispam.json");
+  protectGuilds.guilds.forEach(g => {
+    if (g == message.guild.id) {
+      enable = true;
+    }
+  });
+  if (enable) {
+    antiSpam.message(message);
   }
 
   //ping pong brrr
