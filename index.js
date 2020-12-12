@@ -6,18 +6,22 @@ const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX } = require("./util/EvobotUtil");
 const {activities_list, BANNED_GUILDS} = require("./config.json");
+const levels = require("./util/levels");
+const modules = require("./database/modules.json");
 
 const AntiSpam = require('discord-anti-spam');
+const { msg } = require("./util/levels");
+//antispam config
 const antiSpam = new AntiSpam({
   warnThreshold: 3, // Amount of messages sent in a row that will cause a warning.
   kickThreshold: 10, // Amount of messages sent in a row that will cause a ban.
-  banThershold: 9999999, //i don't wat anyone banned for now
+  banThershold: 9999999, //i don't want anyone banned for now
   maxInterval: 10000, // Amount of time (in milliseconds) in which messages are considered spam.
   warnMessage: '{@user}, Please stop spamming.', // Message that will be sent in chat upon warning a user.
   kickMessage: '**{user_tag}** has been kicked for spamming.', // Message that will be sent in chat upon kicking a user.
   maxDuplicatesWarning: 7, // Amount of duplicate messages that trigger a warning.
   maxDuplicatesKick: 10, // Amount of duplicate messages that trigger a warning.
-  maxDuplicatesBan: 9999999, //i don't wat anyone banned for now
+  maxDuplicatesBan: 9999999, //i don't want anyone banned for now
   exemptPermissions: ['ADMINISTRATOR', 'MANAGE_CHANNELS', 'KICK_MEMBERS']
 });
 
@@ -78,7 +82,7 @@ client.on("message", async (message) => {
     antiSpam.message(message);
   }
 
-  //ping pong brrr
+  //ping pong
   if (message.content.toLowerCase().startsWith("ping")) {
     var a = new MessageEmbed()
       .setTitle("Pong!")
@@ -128,9 +132,14 @@ client.on("message", async (message) => {
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
   try {
-    command.execute(message, args);
+  command.execute(message, args);
   } catch (error) {
-    console.error(error);
+  console.error(error);
     message.reply("There was an error executing that command.").catch(console.error);
   }
+
+  //Leveling
+  levels.msg(message);
 });
+
+require("./dashboard/server");
