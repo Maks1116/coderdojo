@@ -1,3 +1,9 @@
+WARNING: This project is abandoned. I'm continuing bot in private repo. If you want you can add bot using this link: https://discord.com/oauth2/authorize?client_id=668783690674995210&scope=bot&permissions=1509289207
+
+
+
+
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/maks1116/coderdojo)
 
 **⚠️ Please note that I'm not good at English and I'm still learning it. If you see that I typed something wrong open issue in "issues" tab. ⚠️**
